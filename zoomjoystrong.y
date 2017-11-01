@@ -48,35 +48,35 @@
 %%
 
 program:            statement_list END END_STATEMENT
-						{ finish(); }
+                        { finish(); }
                 ;
 statement_list:     statement
-          	    |   statement statement_list
+                |   statement statement_list
                 ;
 statement:          point
-                |	line
-                |	circle
-		        |	rectangle
-		        |	set_color
+                |   line
+                |   circle
+                |   rectangle
+                |   set_color
                 |   END_STATEMENT
                 |   ERROR
-						{ lex_error(); }
-		        ;
-point:				POINT INT INT END_STATEMENT
-                		{ point_matched($2, $3); }
-		        ;
-line:				LINE INT INT INT INT END_STATEMENT
-						{ line_matched($2, $3, $4, $5); }
-		        ;
-circle:				CIRCLE INT INT INT END_STATEMENT
-						{ circle_matched($2, $3, $4); }
-		        ;
-rectangle:			RECTANGLE INT INT INT INT END_STATEMENT
-						{ rectangle_matched($2, $3, $4, $5); }
-		        ;
-set_color:			SET_COLOR INT INT INT END_STATEMENT
-						{ set_color_matched($2, $3, $4); }
-		        ;
+                        { lex_error(); }
+                ;
+point:              POINT INT INT END_STATEMENT
+                        { point_matched($2, $3); }
+                ;
+line:               LINE INT INT INT INT END_STATEMENT
+                        { line_matched($2, $3, $4, $5); }
+                ;
+circle:             CIRCLE INT INT INT END_STATEMENT
+                        { circle_matched($2, $3, $4); }
+                ;
+rectangle:          RECTANGLE INT INT INT INT END_STATEMENT
+                        { rectangle_matched($2, $3, $4, $5); }
+                ;
+set_color:          SET_COLOR INT INT INT END_STATEMENT
+                        { set_color_matched($2, $3, $4); }
+                ;
 
 %%
 
@@ -103,7 +103,7 @@ int yyerror( const char * s){
 * an error occured and then continue parsing.                          *
 ***********************************************************************/
 void lex_error(){
-	fprintf(stderr, "There was a invalid Token found.\n"); 
+    fprintf(stderr, "There was a invalid Token found.\n"); 
 }
 
 /***********************************************************************
@@ -111,13 +111,13 @@ void lex_error(){
 * found. Error checks for being inside the defined graphic screen.     *
 ***********************************************************************/
 void point_matched(const int two, const int three){
-	if( two > WIDTH || two < 0 || three > HEIGHT || three < 0){
-		fprintf(stderr, "Point goes out of bounds. Dimensions "
+    if( two > WIDTH || two < 0 || three > HEIGHT || three < 0){
+        fprintf(stderr, "Point goes out of bounds. Dimensions "
                 "are: %d x %d \n", WIDTH, HEIGHT);
-	}
-	else {
-        	point( two, three );
-        }
+    }
+    else {
+        point( two, three );
+    }
 }
 
 /***********************************************************************
@@ -126,15 +126,15 @@ void point_matched(const int two, const int three){
 ***********************************************************************/
 void line_matched(const int two, const int three, const int four,
                   const int five){
-	if( two > WIDTH || two < 0 || three > HEIGHT || three < 0 ||
+    if( two > WIDTH || two < 0 || three > HEIGHT || three < 0 ||
             four > WIDTH || four < 0 || five > HEIGHT || five < 0)
-	{
-		fprintf(stderr, "ERR: The Line goes out of bounds. Dimensions "
+    {
+        fprintf(stderr, "ERR: The Line goes out of bounds. Dimensions "
                 "are: %d x %d \n", WIDTH, HEIGHT);
-	}
-	else {
-		line(two, three, four, five);
-	}							                
+    }
+    else {
+        line(two, three, four, five);
+    }							                
 }
 
 /***********************************************************************
@@ -142,16 +142,16 @@ void line_matched(const int two, const int three, const int four,
 * found. Error checks for bein inside the defined graphic screen.      *
 ***********************************************************************/
 void circle_matched(const int two, const int three, const int four){
-	if( two > WIDTH || two < 0 || three > HEIGHT || three < 0 || 
+    if( two > WIDTH || two < 0 || three > HEIGHT || three < 0 || 
         two + four > WIDTH || two - four < 0 ||
-            three + four > HEIGHT || three - four < 0 || four < 0)
-	{
-		fprintf(stderr, "ERR: Circle is out of bounds. Dimensions "
+        three + four > HEIGHT || three - four < 0 || four < 0)
+    {
+        fprintf(stderr, "ERR: Circle is out of bounds. Dimensions "
                 "are: %d x %d \n", WIDTH, HEIGHT);
-	}
-	else {
-		circle(two, three, four);
-	}
+    }
+    else {
+        circle(two, three, four);
+    }
 }
 
 /***********************************************************************
@@ -160,16 +160,16 @@ void circle_matched(const int two, const int three, const int four){
 ***********************************************************************/
 void rectangle_matched(const int two, const int three, const int four,
                        const int five){
-	if( two > WIDTH || two < 0 || three > HEIGHT || three < 0 ||
+    if( two > WIDTH || two < 0 || three > HEIGHT || three < 0 ||
         two + four > WIDTH || three + five > HEIGHT ||
    	    four < 0 || five < 0)
-	{
-		fprintf(stderr, "ERR: Rectangle goes out of bounds. Dimensions "
+    {
+        fprintf(stderr, "ERR: Rectangle goes out of bounds. Dimensions "
                 "are: %d x %d \n", WIDTH, HEIGHT);
-	}
-	else {
-		rectangle(two, three, four, five);
-	}								                
+    }
+    else {
+        rectangle(two, three, four, five);
+    }								                
 }
 
 /***********************************************************************
@@ -177,12 +177,12 @@ void rectangle_matched(const int two, const int three, const int four,
 * is found. Error checks for being in the color value range of RGB     *
 ***********************************************************************/
 void set_color_matched(const int two, const int three, const int four){
-	if( two > 255 || two < 0 || three > 255 || three < 0 || 
+    if( two > 255 || two < 0 || three > 255 || three < 0 || 
         four > 255 || four < 0 ){
-		fprintf(stderr, "ERR: All INTS for set_color must be in "
+        fprintf(stderr, "ERR: All INTS for set_color must be in "
                 "range 0-255.\n");
-	}
-	else {
-	set_color(two, three, four);
-	}
+    }
+    else {
+        set_color(two, three, four);
+    }
 }
